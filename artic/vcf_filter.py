@@ -116,7 +116,7 @@ def main():
     parser.add_argument('--nanopolish', action='store_true')
     parser.add_argument('--medaka', action='store_true')
     parser.add_argument('--no-frameshifts', action='store_true')
-    parser.add_argument('--min-depth', metavar='min_depth', help='Minimum depth to consider PASS', type=int, default=20)
+    parser.add_argument('--min-var-depth', metavar='min_var_depth', help='Minimum depth to consider PASS', type=int, default=20)
     parser.add_argument('inputvcf')
     parser.add_argument('output_pass_vcf')
     parser.add_argument('output_fail_vcf')
