@@ -1,6 +1,7 @@
 # For zika-pipeline repo #
 data/
 build/
+.idea/
 
 # OS generated files #
 ######################

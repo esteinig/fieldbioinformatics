@@ -118,7 +118,12 @@ def init_pipeline_parser():
     parser_minion.add_argument('--fast5-directory', help='FAST5 Directory')
     parser_minion.add_argument(
         '--sequencing-summary', help='Path to Guppy sequencing summary')
+    parser_minion.add_argument(
+        '--min-var-depth', metavar='min_var_depth',
+        type=int, default=20, help='Minimum variant depth for PASS (default: %(default)d)'
+    )
     parser_minion.add_argument('--skip-nanopolish', action='store_true')
+    parser_minion.add_argument('--skip-muscle', action='store_true')
     parser_minion.add_argument('--no-indels', action='store_true', help='Do not report InDels (uses SNP-only mode of nanopolish/medaka)')
     parser_minion.add_argument('--no-frameshifts', action='store_true', help='Remove variants which induce frameshifts (ignored when --no-indels set)')
     parser_minion.add_argument('--dry-run', action='store_true')

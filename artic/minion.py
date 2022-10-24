@@ -253,9 +253,9 @@ def run(parser, args):
 
     ## filter the variants to produce PASS and FAIL lists, then index them
     if args.no_frameshifts and not args.no_indels:
-        cmds.append("artic_vcf_filter --%s --no-frameshifts %s.merged.vcf %s.pass.vcf %s.fail.vcf" % (method, args.sample, args.sample, args.sample))
+        cmds.append("artic_vcf_filter --%s --min-var-depth %s --no-frameshifts %s.merged.vcf %s.pass.vcf %s.fail.vcf" % (method, args.min_var_depth, args.sample, args.sample, args.sample))
     else:
-        cmds.append("artic_vcf_filter --%s %s.merged.vcf %s.pass.vcf %s.fail.vcf" % (method, args.sample, args.sample, args.sample))
+        cmds.append("artic_vcf_filter --%s --min-var-depth %s %s.merged.vcf %s.pass.vcf %s.fail.vcf" % (method, args.min_var_depth, args.sample, args.sample, args.sample))
     cmds.append("bgzip -f %s" % (vcf_file))
     cmds.append("tabix -p vcf %s.gz" % (vcf_file))
 
@@ -269,8 +269,10 @@ def run(parser, args):
     # 11) apply the header to the consensus sequence and run alignment against the reference sequence
     fasta_header = "%s/ARTIC/%s" % (args.sample, method)
     cmds.append("artic_fasta_header %s.consensus.fasta \"%s\"" % (args.sample, fasta_header))
-    cmds.append("cat %s.consensus.fasta %s > %s.muscle.in.fasta" % (args.sample, ref, args.sample))
-    cmds.append("muscle -in %s.muscle.in.fasta -out %s.muscle.out.fasta" % (args.sample, args.sample))
+
+    if not args.skip_muscle:
+        cmds.append("cat %s.consensus.fasta %s > %s.muscle.in.fasta" % (args.sample, ref, args.sample))
+        cmds.append("muscle -in %s.muscle.in.fasta -out %s.muscle.out.fasta" % (args.sample, args.sample))
 
     # 12) get some QC stats
     if args.strict:
